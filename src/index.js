@@ -1,5 +1,5 @@
-import PblFactory from "./PblFactory";
-import NoPblFactory from "./NoPblFactory";
+import PblFactory from "./AbstractFactory/PblFactory";
+import NoPblFactory from "./AbstractFactory/NoPblFactory";
 
 let groups = [];
 let noPblFactory = new NoPblFactory();
