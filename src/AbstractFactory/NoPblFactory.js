@@ -1,10 +1,7 @@
-import AbstractFactory from "./AbstractFactory";
 import NoPbl from "./NoPbl";
 
-export default class NoPblFactory extends AbstractFactory {
-  constructor() {
-    super();
-  }
+export default class NoPblFactory {
+  constructor() {}
 
   create(groupName) {
     return new NoPbl(groupName);
