@@ -1,5 +1,6 @@
-import SingletonPblFactory from "./AbstractFactory/SingletonPblFactory";
-import SingletonNoPblFactory from "./AbstractFactory/SingletonNoPblFactory";
+import SingletonPblFactory from "./CreationalPatterns/SingletonPblFactory";
+import SingletonNoPblFactory from "./CreationalPatterns/SingletonNoPblFactory";
+import PblPrototype from './CreationalPatterns/PblPrototype';
 
 let groups = [];
 let noPblFactory1 = new SingletonNoPblFactory();
@@ -18,6 +19,11 @@ groups.push(noPblFactory1.create('TI-151'));
 groups.push(noPblFactory1.create('TI-151'));
 groups.push(noPblFactory2.create('TI-151'));
 groups.push(noPblFactory2.create('TI-151'));
+
+let proto = pblFactory1.create('FAF-183 Prototype');
+let prototype = new PblPrototype(proto);
+
+groups.push(prototype.clone());
 
 groups.forEach((group) => {
   group.say();
