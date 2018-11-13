@@ -1,14 +1,24 @@
 export default class DecoratedPbl {
-  constructor(pbl, studentCount, moderator) {
+  constructor(pbl, moderator) {
     this.pbl = pbl;
     this.groupName = pbl.groupName;
-    this.studentCount = studentCount;
+    this.students = [moderator];
     this.moderator = moderator;
   }
 
   say() {
     console.log(`\nI am Decorated Pbl ${this.groupName},
-Number of students: ${this.studentCount},
-Moderator: ${this.moderator}`);
+Moderator: ${this.moderator},
+Students: ${this.students}`);
+  }
+
+  action(command) {
+    let name = command.execute.toString().substr(9, 3);
+    return name;
+  }
+
+  execute(command) {
+    this.students = command.execute(this.students, command.value);
+    console.log(this.action(command), command.value);
   }
 }

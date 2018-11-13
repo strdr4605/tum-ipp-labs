@@ -2,6 +2,7 @@ import SingletonPblFactory from "./CreationalPatterns/SingletonPblFactory";
 import SingletonNoPblFactory from "./CreationalPatterns/SingletonNoPblFactory";
 import PblPrototype from './CreationalPatterns/PblPrototype';
 import DecoratedPbl from './StructuralPatterns/DecorantedPbl';
+import { AddCommand, RemoveCommand } from './BehavioralPatterns/Command';
 
 let groups = [];
 let noPblFactory1 = new SingletonNoPblFactory();
@@ -35,5 +36,10 @@ console.log(`\n============ Lab2, Structural Patterns + Behavioral Patterns ====
 
 let group = pblFactory1.create('FAF-181');
 group.say();
-let decoratedGroup = new DecoratedPbl(group, 31, `Dragos Strainu`);
+let decoratedGroup = new DecoratedPbl(group, `Dragos Strainu`);
+decoratedGroup.say();
+decoratedGroup.execute(new AddCommand('Vasile Drumea'));
+decoratedGroup.execute(new AddCommand('Stanislav Spatari'));
+decoratedGroup.execute(new RemoveCommand('Vasile Drumea'));
+decoratedGroup.execute(new AddCommand('Tudor Strainu'));
 decoratedGroup.say();
