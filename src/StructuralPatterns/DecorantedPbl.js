@@ -9,7 +9,7 @@ export default class DecoratedPbl {
   say() {
     console.log(`\nI am Decorated Pbl ${this.groupName},
 Moderator: ${this.moderator},
-Students: ${this.students}`);
+Students: `, this.students);
   }
 
   action(command) {
