@@ -3,6 +3,7 @@ import SingletonNoPblFactory from "./CreationalPatterns/SingletonNoPblFactory";
 import PblPrototype from './CreationalPatterns/PblPrototype';
 import DecoratedPbl from './StructuralPatterns/DecorantedPbl';
 import { AddCommand, RemoveCommand } from './BehavioralPatterns/Command';
+import GroupsProxy from './StructuralPatterns/GroupsProxy';
 
 let groups = [];
 let noPblFactory1 = new SingletonNoPblFactory();
@@ -43,3 +44,11 @@ decoratedGroup.execute(new AddCommand('Stanislav Spatari'));
 decoratedGroup.execute(new RemoveCommand('Vasile Drumea'));
 decoratedGroup.execute(new AddCommand('Tudor Strainu'));
 decoratedGroup.say();
+groups.push(decoratedGroup);
+
+console.log(`\nProxy\n`);
+let groupProxy = new GroupsProxy(groups);
+groupProxy.getFieldInfo('groupName');
+groupProxy.getFieldInfo('moderator');
+groupProxy.getFieldInfo('groupName');
+groupProxy.getCount();
