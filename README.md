@@ -147,3 +147,115 @@ groupProxy.getFieldInfo('groupName');
 // groupName: FAF-181,FAF-182,FAF-171,FAF-172,TI-151,TI-151,TI-151,TI-151,FAF-183 Prototype,FAF-181
 groupProxy.getCount(); // Cache size: 2
 ```
+
+## Lab3
+
+I implemented 1 Structural Pattern (Facade), 1 Creational Pattern (Factory Method) and 2 Behavioral Patterns (Observer, Iterator) in JavaScript.  
+[FactoryMethod](https://github.com/strdr4605/tum-ipp-labs/blob/master/src/CreationalPatterns/FactoryMethod.js) is a method that creates object in dependence of `type` argument.
+
+```javascript
+if (type.toLocaleLowerCase() === 'pbl') {
+  group = new Pbl(groupName);
+} else if (type.toLocaleLowerCase() === 'nopbl') {
+  group = new noPbl(groupName);
+}
+```
+
+Usage:
+
+```javascript
+const newGroup = factoryMethod('pbl', 'FAF-191');
+````
+
+[ObserverDecoratedPlb](https://github.com/strdr4605/tum-ipp-labs/blob/master/src/BehavioralPatterns/ObserverDecoratedPlb.js) is a observer that inherits [DecoratedPbl](https://github.com/strdr4605/tum-ipp-labs/blob/master/src/StructuralPatterns/DecorantedPbl.js) and can have handlers that can handle its events.
+
+```javascript
+subscribe(fn) {
+  this.handlers.push(fn);
+}
+
+unsubscribe(fn) {
+  this.handlers = this.handlers.filter(item => item !== fn);
+}
+
+fire(command, thisObj) {
+  this.handlers.forEach(item => {
+    item.call(thisObj, super.execute(command));
+  });
+}
+```
+
+Usage:
+
+```javascript
+const observerDecoratedGroup = new ObserverDecoratedPbl(newGroup, 'Dragos Strainu');
+
+const newStudentHandler = item => console.log(`fired: ${item}`)
+observerDecoratedGroup.subscribe(newStudentHandler);
+observerDecoratedGroup.fire(new AddCommand('Ion Strainu')); // fired: add Ion Strainu
+observerDecoratedGroup.unsubscribe(newStudentHandler);
+observerDecoratedGroup.fire(new AddCommand('Viorica Strainu'));
+observerDecoratedGroup.subscribe(newStudentHandler);
+observerDecoratedGroup.fire(new AddCommand('Viorel Bejan'));  // fired: add Viorel Bejan
+```
+
+[AplicantFacade](https://github.com/strdr4605/tum-ipp-labs/blob/master/src/StructuralPatterns/AplicantFacade.js) is a facade that uses classes with complex logic and is a bridge between them and user.  
+
+```javascript
+applyInGroup(groupName) {
+let result = true;
+if (!new Diploma().get(this.name)) {
+  result = false;
+} else if (!new BAC().verify(this.name)) {
+  result = false;
+} else if (!new Group().available(groupName)) {
+  result = false;
+}
+
+return result;
+}
+```
+
+Usage:
+
+```javascript
+const aplicant = new AplicantFacade('Nicolae Bejan');
+const result = aplicant.applyInGroup(observerDecoratedGroup.groupName);
+if (result) {
+  observerDecoratedGroup.execute(new AddCommand(aplicant.name));
+}
+```
+
+[Iterator](https://github.com/strdr4605/tum-ipp-labs/blob/master/src/BehavioralPatterns/Iterator.js) is a class that get as a parameter a list and can iterate through it.
+
+```javascript
+first() {
+  this.reset();
+  return this.next();
+}
+
+next() {
+  return this.items[this.index++];
+}
+
+hasNext() {
+  return this.index <= this.items.length;
+}
+
+reset() {
+  this.index = 0;
+}
+
+each(callback) {
+  for (let item = this.first(); this.hasNext(); item = this.next()) {
+    callback(item);
+  }
+}
+```
+
+Usage:
+
+```javascript
+const iter = new Iterator(observerDecoratedGroup.students);
+iter.each(el => console.log(el));
+```
