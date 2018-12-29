@@ -19,6 +19,8 @@ Students: `, this.students);
 
   execute(command) {
     this.students = command.execute(this.students, command.value);
-    console.log(this.action(command), command.value);
+    const result = `${this.action(command)} ${command.value}`;
+    console.log(result);
+    return result;
   }
 }
